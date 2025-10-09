@@ -1,3 +1,3 @@
-# Read Me bc
+# Read Me
 
 This is a Read me
