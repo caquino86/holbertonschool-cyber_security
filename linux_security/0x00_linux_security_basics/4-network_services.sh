@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo ss -ltnup  # List listening TCP/UDP sockets with numeric IPs, ports, PID, and program name
+sudo netstat -tulnp  # List listening TCP/UDP sockets with PID and program name
