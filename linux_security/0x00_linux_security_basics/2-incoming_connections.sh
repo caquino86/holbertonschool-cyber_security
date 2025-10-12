@@ -1,2 +1,2 @@
 #!/bin/bash
-ufw default deny incoming && ufw allow 80/tcp
+sudo ufw default deny incoming && sudo ufw allow 80/tcp
