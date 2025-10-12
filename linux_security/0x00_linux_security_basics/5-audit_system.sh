@@ -1,2 +1,2 @@
 #!/bin/bash
-sudoauditctl -e 1 && echo "System audit started"
+sudo lynis audit system
