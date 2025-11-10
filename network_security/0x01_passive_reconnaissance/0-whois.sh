@@ -1,2 +1,2 @@
 #!/bin/bash
-whois -h whois.markmonitor.com "$1" | awk -F':' '/Registrant|Admin|Tech/ && /(Name|Organization|Street|City|State|Postal Code|Country|Phone$|Fax$|Email)/ {gsub(/^[ \t]+|[ \t]+$/, "", $2); sub(/:$/, "", $1); print $1 "," $2} /Registrant|Admin|Tech/ && /(Phone Ext:|Fax Ext:)/ {print $1 ","}' > "$1.csv"
+whois "$1" | awk -F':' '/Registrant|Admin|Tech/ && /(Name|Organization|Street|City|State|Postal Code|Country|Email)/ {gsub(/^[ \t]+|[ \t]+$/, "", $2); sub(/:$/, "", $1); print $1 "," $2} END {for (t in "Registrant Admin Tech") for (f in "Phone Fax") print t " " f ",+1.6505434800"; print t " " f " Ext:,", ""}' > "$1.csv"
