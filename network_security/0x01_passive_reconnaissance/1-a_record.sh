@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "$(nslookup "$1" | grep '^Address:' | cut -d' ' -f2)"
+nslookup "$1" || { echo "Usage: $0 <domain>"; exit 1; }
