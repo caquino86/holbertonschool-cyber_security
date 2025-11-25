@@ -1,2 +1,2 @@
 #!/bin/bash
-whois "${1}" 2>/dev/null | awk 'BEGIN{print"Section,Field,Value"} /^(Registrant|Admin|Tech)/{s=$1;sub(/:$/,"",s);sec=s;next} NF&&sec{ gsub(/^[ \t]+|[ \t]+$|\r$/,"",$1); f=$1; $1=""; v=substr($0,2); gsub(/^[ \t]+$/,"",v); if(f~"Street")v=v" "; if(f~"Ext")f=f":"; print sec","f","v }' | tr '\n' '\r' | tr '\r' '\n' | head -c -1
+whois "$1" 2>/dev/null | awk 'BEGIN{print "Section,Field,Value"}{gsub(/\r$/,"");if($0~/^(Registrant|Admin|Tech) /||$0~/^Registrant:$/||$0~/^Admin:$/||$0~/^Tech:$/){sec=$0;sub(/: *$/,"",sec);next}if(NF&&sec&&$0!~/^>>>/&&$0!~/^%/&&$0!~/^#/&&$0!~/^;/&&$0!~/^$/){split($0,a,":");f=a[1];sub(/ *$/,"",f);v=a[2];gsub(/^ */,"",v);if(f~/Street$/)v=v" ";if(f~/Ext$/)f=f":";print sec","f","v}' | sed '/^$/d' | tr '\n' '\r' | tr '\r' '\n' | head -c -1
