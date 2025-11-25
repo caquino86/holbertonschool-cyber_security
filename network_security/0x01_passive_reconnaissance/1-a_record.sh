@@ -1,2 +1,2 @@
 #!/bin/bash
-nslookup -type=A "$1" | awk '/^Address: / {print $2}'
+for ip in $(nslookup -type=A "$1" | awk '/^Address: / {print $2}'); do echo "$ip"; done
