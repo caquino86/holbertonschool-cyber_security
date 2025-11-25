@@ -1,2 +1,2 @@
-WHOIS=$(whois "$1")
-echo "$WHOIS" | grep -q "Registrant" && echo "FOUND" || echo "NOT FOUND"
+#!/bin/bash
+grep -q "Registrant" < <(whois "$1")
