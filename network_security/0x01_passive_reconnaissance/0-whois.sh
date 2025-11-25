@@ -1,2 +1,4 @@
-#!/bin/bash
-echo "Domain,Registrant Name,Registrant Org,Registrant Email,Admin Name,Admin Email,Tech Name,Tech Email"; for d in "$@"; do whois "$d" 2>/dev/null | grep -Ei 'Registrant Name:|Registrant Organization:|Registrant Email:|Admin Name:|Admin Email:|Tech Name:|Tech Email:' | sed -E 's/.*Name:/Name:/; s/.*Organization:/Org:/; s/.*Email:/Email:/' | awk '{printf "%s,",$2; for(i=3;i<=NF;i++) printf "%s ",$i; printf ","}' | tr '\n' ',' | sed -e "s/^/$d,/" -e 's/,$//' -e 's/, ,/,/g'; echo; done
+#!/usr/bin/env bash
+[ -z "$1" ] && { echo "Uso: $0 <dominio>" >&2; exit 1; } || { DOMAIN="$1"; OUTPUT_FILE="${DOMAIN}.csv"; }
+whois "$DOMAIN" | awk 'BEGIN{FS=":";OFS=",";T="^(Registrant|Admin|Tech) (Name|Organization|Street|City|State\\/Province|Postal Code|Country|Phone|Email|Fax|Phone Ext|Fax Ext)$";E="(Phone Ext|Fax Ext)$";S=" Street$"} {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1);if(match($1,T)){F=$1;V="";for(i=2;i<=NF;i++){V=(i==2?"":V":") $i}gsub(/^[[:space:]]+|[[:space:]]+$/, "", V);if(F~E){F=F":"};if(F~S){V=V" "};print F,V}}' > "$OUTPUT_FILE"
+exit 0
