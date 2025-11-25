@@ -1,2 +1,2 @@
 #!/bin/bash
-whois "$1" | awk '/^Registrant /{s="Registrant"} /^Admin /{s="Admin"} /^Tech /{s="Tech"} /^[RT]/{split($0,a,": ");f=a[1];v=a[2];if(f~/Street/)v=v" ";if(f~/Ext$/)f=f":";if(s!="")printf("%s %s,%s\n",s,substr(f,index(f," ")+1),v)}' | sed '$!s/$/\n/'
+whois "$1" | awk 'BEGIN{FS=": ";OFS=","} /^Registrant |^Admin |^Tech /{sub(/ .*/,"",$1);s=$1} $1 ~ /Name$|Organization$|Street$|City$|State\/Province$|Postal Code$|Country$|Phone$|Phone Ext$|Fax$|Fax Ext$|Email$/ {f=$1;v=$2;gsub(/^ +| +$/,"",v); if(f~/Street/) v=v" "; if(f~/Ext$/) f=f":"; print s" "f,v}' > "$1.csv"
