@@ -1,2 +1,2 @@
 #!/bin/bash
-whois "$1" | awk -F':' '/Registrant|Admin|Tech/ && /(Name|Organization|Street|City|State|Postal Code|Country|Phone$|Fax$|Email|Phone Ext:|Fax Ext:)/ {gsub(/^[ \t]+|[ \t]+$/, "", $2); if ($1 ~ /Street$/) $2=$2" "; print $1 "," $2}' > "$1.csv"
+whois "${1}" 2>/dev/null | awk 'BEGIN{print"Section,Field,Value"} /^(Registrant|Admin|Tech)/{s=$1;sub(/:$/,"",s);sec=s;next} NF&&sec{ gsub(/^[ \t]+|[ \t]+$|\r$/,"",$1); f=$1; $1=""; v=substr($0,2); gsub(/^[ \t]+$/,"",v); if(f~"Street")v=v" "; if(f~"Ext")f=f":"; print sec","f","v }' | tr '\n' '\r' | tr '\r' '\n' | head -c -1
