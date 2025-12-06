@@ -1,0 +1,1 @@
+icmp || igmp || ip.proto == 1 || ip.proto == 2 || ip.proto == 6 || ip.proto == 17 || ip.proto == 47 || ip.proto == 50 || ip.proto == 51 || ip.proto == 89

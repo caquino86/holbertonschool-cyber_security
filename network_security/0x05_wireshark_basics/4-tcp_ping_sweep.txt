@@ -1,0 +1,1 @@
+tcp || ip.proto == 6 || tcp.flags.syn == 1 || tcp.flags.ack == 1 || tcp.len == 0 || tcp.window_size_value == 8192 || tcp.window_size_value == 17520
